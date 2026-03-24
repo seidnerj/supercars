@@ -124,6 +124,7 @@ function loop(ts) {
 
 // Init
 window.addEventListener('resize', resizeCanvas);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 initGame();
 requestAnimationFrame(loop);
