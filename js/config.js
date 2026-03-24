@@ -14,8 +14,10 @@ function updateCanvasScale() {
 }
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Use visualViewport on mobile for accurate size (excludes Safari chrome)
+    const vp = window.visualViewport;
+    canvas.width = vp ? vp.width * devicePixelRatio : window.innerWidth;
+    canvas.height = vp ? vp.height * devicePixelRatio : window.innerHeight;
     ctx.direction = 'rtl';
     updateCanvasScale();
 }
