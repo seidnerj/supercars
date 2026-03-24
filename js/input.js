@@ -160,32 +160,50 @@ function drawTouchControls() {
         }
     }
 
-    // Shoot button
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+
+    // Shoot button - crosshair icon
     const sb = lay.shootBtn;
-    ctx.fillStyle = shootTouchId !== null ? 'rgba(255,50,50,0.45)' : 'rgba(255,50,50,0.2)';
-    ctx.strokeStyle = 'rgba(255,100,100,0.4)'; ctx.lineWidth = 2;
+    const pressed = shootTouchId !== null;
+    ctx.fillStyle = pressed ? 'rgba(255,50,50,0.5)' : 'rgba(255,50,50,0.2)';
+    ctx.strokeStyle = pressed ? 'rgba(255,150,150,0.6)' : 'rgba(255,100,100,0.4)';
+    ctx.lineWidth = 2;
     ctx.beginPath(); ctx.arc(sb.x, sb.y, sb.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = 'rgba(255,255,255,0.75)';
-    ctx.font = `bold ${Math.round(sb.r * 0.5)}px Arial`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('ירי', sb.x, sb.y);
+    // Crosshair
+    const sl = sb.r * 0.55;
+    ctx.strokeStyle = `rgba(255,255,255,${pressed ? 0.9 : 0.65})`;
+    ctx.lineWidth = pressed ? 3 : 2;
+    ctx.beginPath(); ctx.moveTo(sb.x, sb.y - sl); ctx.lineTo(sb.x, sb.y + sl); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(sb.x - sl, sb.y); ctx.lineTo(sb.x + sl, sb.y); ctx.stroke();
+    ctx.beginPath(); ctx.arc(sb.x, sb.y, sb.r * 0.32, 0, Math.PI * 2); ctx.stroke();
 
-    // Shield button
+    // Shield button - shield icon
     const shb = lay.shieldBtn;
-    ctx.fillStyle = shieldTouchId !== null ? 'rgba(68,136,255,0.45)' : 'rgba(68,136,255,0.2)';
-    ctx.strokeStyle = 'rgba(100,150,255,0.4)';
+    const shPressed = shieldTouchId !== null;
+    ctx.fillStyle = shPressed ? 'rgba(68,136,255,0.5)' : 'rgba(68,136,255,0.2)';
+    ctx.strokeStyle = shPressed ? 'rgba(130,180,255,0.6)' : 'rgba(100,150,255,0.4)';
+    ctx.lineWidth = 2;
     ctx.beginPath(); ctx.arc(shb.x, shb.y, shb.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = 'rgba(255,255,255,0.75)';
-    ctx.font = `bold ${Math.round(shb.r * 0.5)}px Arial`;
-    ctx.fillText('מגן', shb.x, shb.y);
+    // Shield shape
+    const ss = shb.r * 0.5;
+    ctx.fillStyle = `rgba(100,180,255,${shPressed ? 0.85 : 0.55})`;
+    ctx.beginPath();
+    ctx.moveTo(shb.x, shb.y - ss);
+    ctx.quadraticCurveTo(shb.x + ss, shb.y - ss * 0.6, shb.x + ss, shb.y + ss * 0.1);
+    ctx.quadraticCurveTo(shb.x + ss * 0.5, shb.y + ss * 0.9, shb.x, shb.y + ss);
+    ctx.quadraticCurveTo(shb.x - ss * 0.5, shb.y + ss * 0.9, shb.x - ss, shb.y + ss * 0.1);
+    ctx.quadraticCurveTo(shb.x - ss, shb.y - ss * 0.6, shb.x, shb.y - ss);
+    ctx.fill();
 
-    // Pause button
+    // Pause button - two bars
     const pb = lay.pauseBtn;
     ctx.fillStyle = 'rgba(255,255,255,0.12)';
-    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.arc(pb.x, pb.y, pb.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    ctx.font = `bold ${Math.round(pb.r * 0.6)}px Arial`;
-    ctx.fillText('| |', pb.x, pb.y);
+    const pw = pb.r * 0.2, ph = pb.r * 0.6, pg = pb.r * 0.18;
+    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    ctx.fillRect(pb.x - pg - pw, pb.y - ph, pw, ph * 2);
+    ctx.fillRect(pb.x + pg, pb.y - ph, pw, ph * 2);
 
     ctx.textBaseline = 'alphabetic';
 }
