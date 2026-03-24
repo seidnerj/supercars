@@ -35,7 +35,7 @@ function updatePlayer(dt) {
     if (input.up) player.y -= player.speed * dt;
     if (input.down) player.y += player.speed * dt;
     player.x = Math.max(ROAD_L + player.w / 2, Math.min(ROAD_R - player.w / 2, player.x));
-    player.y = Math.max(player.h / 2 + 5, Math.min(H - player.h / 2 - 5, player.y));
+    player.y = Math.max(player.h / 2 + 40, Math.min(H - player.h / 2 - 40, player.y));
 
     player.shootTimer -= dt;
     const cd = player.rapidFire > 0 ? 0.08 : player.shootCD;
