@@ -66,8 +66,8 @@ function touchLayout() {
     const gw = W * canvasScale, gh = H * canvasScale;
     const s = Math.min(gw, gh) / 600;
     return {
-        shootBtn: { x: gx + gw - 70 * s, y: gy + gh - 90 * s, r: 48 * s },
-        shieldBtn: { x: gx + gw - 70 * s, y: gy + gh - 200 * s, r: 36 * s },
+        shootBtn: { x: gx + gw - 70 * s, y: gy + gh - 140 * s, r: 48 * s },
+        shieldBtn: { x: gx + gw - 70 * s, y: gy + gh - 250 * s, r: 36 * s },
         pauseBtn: { x: gx + gw - 30 * s, y: gy + 30 * s, r: 22 * s },
         // Game area bounds for joystick zone detection
         gameLeft: gx, gameTop: gy, gameW: gw, gameH: gh
