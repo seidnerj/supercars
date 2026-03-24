@@ -60,13 +60,14 @@ function touchToGame(cx, cy) {
 }
 function inCircle(px, py, cx, cy, r) { return (px - cx) ** 2 + (py - cy) ** 2 <= r * r; }
 
-// Touch control layout (screen-space pixels)
+// Touch control layout (screen-space pixels, scales with screen size)
 function touchLayout() {
     const cw = canvas.width, ch = canvas.height;
+    const s = Math.min(cw, ch) / 600; // scale factor for small screens
     return {
-        shootBtn: { x: cw - 110, y: ch - 130, r: 55 },
-        shieldBtn: { x: cw - 110, y: ch - 260, r: 42 },
-        pauseBtn: { x: cw - 45, y: 45, r: 26 }
+        shootBtn: { x: cw - 80 * s, y: ch - 100 * s, r: 50 * s },
+        shieldBtn: { x: cw - 80 * s, y: ch - 220 * s, r: 38 * s },
+        pauseBtn: { x: cw - 35 * s, y: 35 * s, r: 24 * s }
     };
 }
 

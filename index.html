@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>סופר-קאר נגד החייזר!</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🏎️</text></svg>">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="screen-orientation" content="landscape">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -24,9 +26,32 @@ canvas {
     height: 100vh;
     display: block;
 }
+#rotate-msg {
+    display: none;
+    position: fixed; inset: 0;
+    background: #0a0a1a;
+    color: #fff;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 22px;
+    z-index: 100;
+    text-align: center;
+    gap: 20px;
+}
+#rotate-msg .icon { font-size: 60px; }
+@media (max-width: 600px) and (orientation: portrait) {
+    #rotate-msg { display: flex; }
+    canvas { display: none; }
+}
 </style>
 </head>
 <body>
+<div id="rotate-msg">
+    <div class="icon">📱🔄</div>
+    <div>סובב את המסך לרוחב כדי לשחק!</div>
+</div>
 <canvas id="game"></canvas>
 <script>
 const canvas = document.getElementById('game');
