@@ -83,9 +83,10 @@ if (isTouchDevice) {
         for (const touch of e.changedTouches) {
             const p = canvasTouchPos(touch);
 
-            // Pause
+            // Pause / quit button
             if (inCircle(p.x, p.y, lay.pauseBtn.x, lay.pauseBtn.y, lay.pauseBtn.r)) {
-                pushAction('escape'); continue;
+                if (paused) { pushAction('quit'); } else { pushAction('pause'); }
+                continue;
             }
             // Shoot
             if (inCircle(p.x, p.y, lay.shootBtn.x, lay.shootBtn.y, lay.shootBtn.r)) {
@@ -195,15 +196,25 @@ function drawTouchControls() {
     ctx.quadraticCurveTo(shb.x - ss, shb.y - ss * 0.6, shb.x, shb.y - ss);
     ctx.fill();
 
-    // Pause button - two bars
+    // Pause / quit button
     const pb = lay.pauseBtn;
-    ctx.fillStyle = 'rgba(255,255,255,0.12)';
-    ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 2;
+    ctx.fillStyle = paused ? 'rgba(255,60,60,0.25)' : 'rgba(255,255,255,0.12)';
+    ctx.strokeStyle = paused ? 'rgba(255,100,100,0.5)' : 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = 2;
     ctx.beginPath(); ctx.arc(pb.x, pb.y, pb.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-    const pw = pb.r * 0.2, ph = pb.r * 0.6, pg = pb.r * 0.18;
-    ctx.fillStyle = 'rgba(255,255,255,0.55)';
-    ctx.fillRect(pb.x - pg - pw, pb.y - ph, pw, ph * 2);
-    ctx.fillRect(pb.x + pg, pb.y - ph, pw, ph * 2);
+    if (paused) {
+        // X icon (quit)
+        const xd = pb.r * 0.4;
+        ctx.strokeStyle = 'rgba(255,100,100,0.8)'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(pb.x - xd, pb.y - xd); ctx.lineTo(pb.x + xd, pb.y + xd); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pb.x + xd, pb.y - xd); ctx.lineTo(pb.x - xd, pb.y + xd); ctx.stroke();
+    } else {
+        // Pause bars
+        const pw = pb.r * 0.2, ph = pb.r * 0.6, pg = pb.r * 0.18;
+        ctx.fillStyle = 'rgba(255,255,255,0.55)';
+        ctx.fillRect(pb.x - pg - pw, pb.y - ph, pw, ph * 2);
+        ctx.fillRect(pb.x + pg, pb.y - ph, pw, ph * 2);
+    }
 
     ctx.textBaseline = 'alphabetic';
 }
