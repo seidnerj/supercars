@@ -39,14 +39,18 @@ function handleActions() {
         if (hasAction('diff2')) selectedDiff = 2;
         if (hasAction('diff3')) selectedDiff = 3;
     } else if (state === 'countdown' || state === 'playing') {
+        // Keyboard: Escape toggles pause, second Escape while paused = quit
         if (hasAction('escape')) {
             if (paused) { paused = false; state = 'menu'; }
             else { paused = true; }
         }
+        // Keyboard: P toggles pause
         if (hasAction('pause')) {
             paused = !paused;
         }
-        // Touch: tap in game area while paused = unpause
+        // Touch: quit button (X) while paused = go to menu
+        if (hasAction('quit')) { paused = false; state = 'menu'; }
+        // Touch: tap anywhere while paused = resume
         if (paused && hasAction('tap')) { paused = false; }
     } else if (state === 'gameover') {
         if (hasAction('confirm') || hasAction('tap')) {

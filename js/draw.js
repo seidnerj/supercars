@@ -350,7 +350,7 @@ function drawDifficulty() {
     }
     const pulse = 0.4 + Math.sin(gameTime * 4) * 0.4;
     ctx.fillStyle = `rgba(255,255,100,${pulse})`; ctx.font = 'bold 20px Arial'; ctx.textAlign = 'center';
-    ctx.fillText(isTouchDevice ? 'גע ברמה שאתה רוצה!' : 'חצים לבחור, Enter להתחיל!', W / 2, 575);
+    ctx.fillText(isTouchDevice ? 'בחר ברמה המבוקשת' : 'חצים לבחור, Enter להתחיל!', W / 2, 575);
 }
 
 function drawCountdown() {
@@ -374,7 +374,7 @@ function drawPauseOverlay() {
     ctx.fillText('השהייה', W / 2, H / 2 - 30);
     const pp = 0.4 + Math.sin(gameTime * 4) * 0.4;
     ctx.fillStyle = `rgba(255,255,100,${pp})`; ctx.font = 'bold 22px Arial';
-    ctx.fillText(isTouchDevice ? 'גע להמשיך' : 'P להמשיך, Esc לתפריט ראשי', W / 2, H / 2 + 30);
+    ctx.fillText(isTouchDevice ? 'גע במסך להמשיך, X ליציאה' : 'P להמשיך, Esc לתפריט ראשי', W / 2, H / 2 + 30);
 }
 
 function drawGameOver() {
