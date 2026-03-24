@@ -315,7 +315,7 @@ function drawMenu() {
 
     const pulse = 0.4 + Math.sin(gameTime * 4) * 0.4;
     ctx.fillStyle = `rgba(255,255,100,${pulse})`; ctx.font = 'bold 24px Arial';
-    ctx.fillText(isTouchDevice ? 'גע במסך להתחיל!' : 'לחץ Enter להתחיל!', W / 2, 535);
+    ctx.fillText(isTouchDevice ? 'גע במסך להתחיל!' : 'לחץ Enter להתחיל!', W / 2, 570);
 }
 
 function drawDifficulty() {
