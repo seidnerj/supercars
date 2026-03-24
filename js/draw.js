@@ -293,7 +293,7 @@ function drawMenu() {
     ctx.font = '55px Arial'; ctx.fillText('\uD83C\uDFCE\uFE0F  \u26A1  \uD83D\uDC7D', W / 2, 235);
 
     ctx.fillStyle = 'rgba(255,255,255,0.04)'; ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.roundRect(W / 2 - 220, 260, 440, 280, 15); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.roundRect(W / 2 - 220, 260, 440, 330, 15); ctx.fill(); ctx.stroke();
     ctx.fillStyle = '#ffcc00'; ctx.font = 'bold 20px Arial'; ctx.fillText('איך לשחק:', W / 2, 290);
 
     if (isTouchDevice) {
@@ -315,7 +315,7 @@ function drawMenu() {
 
     const pulse = 0.4 + Math.sin(gameTime * 4) * 0.4;
     ctx.fillStyle = `rgba(255,255,100,${pulse})`; ctx.font = 'bold 24px Arial';
-    ctx.fillText(isTouchDevice ? 'גע במסך להתחיל!' : 'לחץ Enter להתחיל!', W / 2, 565);
+    ctx.fillText(isTouchDevice ? 'גע במסך להתחיל!' : 'לחץ Enter להתחיל!', W / 2, 560);
 
     ctx.fillStyle = 'rgba(255,255,255,0.35)'; ctx.font = '14px Arial';
     ctx.fillText('משחק ע״י אדם זידנר', W / 2, H - 20);
