@@ -214,44 +214,46 @@ function drawPowerUps() {
 }
 
 function drawUI() {
-    ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.beginPath(); ctx.roundRect(W - 230, 10, 220, 40, 8); ctx.fill();
+    const uy = 35; // top offset for UI elements
+
+    ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.beginPath(); ctx.roundRect(W - 230, uy, 220, 40, 8); ctx.fill();
     ctx.fillStyle = '#fff'; ctx.font = 'bold 14px Arial'; ctx.textAlign = 'right';
-    ctx.fillText('אתה \uD83C\uDFCE\uFE0F', W - 15, 35);
-    ctx.fillStyle = '#333'; ctx.beginPath(); ctx.roundRect(W - 225, 18, 180, 22, 5); ctx.fill();
+    ctx.fillText('אתה \uD83C\uDFCE\uFE0F', W - 15, uy + 25);
+    ctx.fillStyle = '#333'; ctx.beginPath(); ctx.roundRect(W - 225, uy + 8, 180, 22, 5); ctx.fill();
     const hp = Math.max(0, player.health) / player.maxHealth;
     ctx.fillStyle = hp > 0.6 ? '#44ff44' : hp > 0.3 ? '#ffaa00' : '#ff4444';
-    if (hp > 0) { ctx.beginPath(); ctx.roundRect(W - 225 + 180 * (1 - hp), 18, 180 * hp, 22, 5); ctx.fill(); }
+    if (hp > 0) { ctx.beginPath(); ctx.roundRect(W - 225 + 180 * (1 - hp), uy + 8, 180 * hp, 22, 5); ctx.fill(); }
     ctx.fillStyle = '#fff'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center';
-    ctx.fillText(Math.max(0, Math.ceil(player.health)) + '/' + player.maxHealth, W - 135, 34);
+    ctx.fillText(Math.max(0, Math.ceil(player.health)) + '/' + player.maxHealth, W - 135, uy + 24);
 
-    ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.beginPath(); ctx.roundRect(10, 10, 220, 40, 8); ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.beginPath(); ctx.roundRect(10, uy, 220, 40, 8); ctx.fill();
     ctx.fillStyle = '#fff'; ctx.font = 'bold 14px Arial'; ctx.textAlign = 'right';
-    ctx.fillText('חייזר \uD83D\uDC7D', 225, 35);
-    ctx.fillStyle = '#333'; ctx.beginPath(); ctx.roundRect(15, 18, 180, 22, 5); ctx.fill();
+    ctx.fillText('חייזר \uD83D\uDC7D', 225, uy + 25);
+    ctx.fillStyle = '#333'; ctx.beginPath(); ctx.roundRect(15, uy + 8, 180, 22, 5); ctx.fill();
     const ahp = Math.max(0, alien.health) / alien.maxHealth;
     ctx.fillStyle = ahp > 0.6 ? '#bb66ff' : ahp > 0.3 ? '#ffaa00' : '#ff4444';
-    if (ahp > 0) { ctx.beginPath(); ctx.roundRect(15 + 180 * (1 - ahp), 18, 180 * ahp, 22, 5); ctx.fill(); }
+    if (ahp > 0) { ctx.beginPath(); ctx.roundRect(15 + 180 * (1 - ahp), uy + 8, 180 * ahp, 22, 5); ctx.fill(); }
     ctx.fillStyle = '#fff'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center';
-    ctx.fillText(Math.max(0, Math.ceil(alien.health)) + '/' + alien.maxHealth, 105, 34);
+    ctx.fillText(Math.max(0, Math.ceil(alien.health)) + '/' + alien.maxHealth, 105, uy + 24);
 
     // Shield
-    ctx.fillStyle = 'rgba(0,0,0,0.45)'; ctx.beginPath(); ctx.roundRect(W - 170, 55, 160, 22, 6); ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.45)'; ctx.beginPath(); ctx.roundRect(W - 170, uy + 45, 160, 22, 6); ctx.fill();
     ctx.fillStyle = '#bbb'; ctx.font = '12px Arial'; ctx.textAlign = 'right';
-    ctx.fillText(isTouchDevice ? 'מגן:' : 'מגן [S]:', W - 15, 70);
+    ctx.fillText(isTouchDevice ? 'מגן:' : 'מגן [S]:', W - 15, uy + 60);
     if (player.shieldOn) {
         const sPct = player.shieldTimer / player.shieldDur;
-        ctx.fillStyle = '#4488ff'; ctx.beginPath(); ctx.roundRect(W - 165 + 90 * (1 - sPct), 58, 90 * sPct, 16, 3); ctx.fill();
-        ctx.fillStyle = '#fff'; ctx.font = '10px Arial'; ctx.textAlign = 'center'; ctx.fillText('פעיל!', W - 120, 70);
+        ctx.fillStyle = '#4488ff'; ctx.beginPath(); ctx.roundRect(W - 165 + 90 * (1 - sPct), uy + 48, 90 * sPct, 16, 3); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = '10px Arial'; ctx.textAlign = 'center'; ctx.fillText('פעיל!', W - 120, uy + 60);
     } else if (player.shieldCD > 0) {
         const cdPct = 1 - player.shieldCD / player.shieldMaxCD;
-        ctx.fillStyle = '#555'; ctx.beginPath(); ctx.roundRect(W - 165 + 90 * (1 - cdPct), 58, 90 * cdPct, 16, 3); ctx.fill();
-        ctx.fillStyle = '#aaa'; ctx.font = '10px Arial'; ctx.textAlign = 'center'; ctx.fillText(Math.ceil(player.shieldCD) + 'שנ\'', W - 120, 70);
+        ctx.fillStyle = '#555'; ctx.beginPath(); ctx.roundRect(W - 165 + 90 * (1 - cdPct), uy + 48, 90 * cdPct, 16, 3); ctx.fill();
+        ctx.fillStyle = '#aaa'; ctx.font = '10px Arial'; ctx.textAlign = 'center'; ctx.fillText(Math.ceil(player.shieldCD) + 'שנ\'', W - 120, uy + 60);
     } else {
-        ctx.fillStyle = '#44ff44'; ctx.beginPath(); ctx.roundRect(W - 165, 58, 90, 16, 3); ctx.fill();
-        ctx.fillStyle = '#fff'; ctx.font = 'bold 10px Arial'; ctx.textAlign = 'center'; ctx.fillText('מוכן!', W - 120, 70);
+        ctx.fillStyle = '#44ff44'; ctx.beginPath(); ctx.roundRect(W - 165, uy + 48, 90, 16, 3); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 10px Arial'; ctx.textAlign = 'center'; ctx.fillText('מוכן!', W - 120, uy + 60);
     }
 
-    let statusY = 95;
+    let statusY = uy + 85;
     if (player.rapidFire > 0) {
         ctx.fillStyle = 'rgba(255,100,0,0.8)'; ctx.font = 'bold 14px Arial'; ctx.textAlign = 'right';
         ctx.fillText('\u26A1 ירי מהיר! ' + Math.ceil(player.rapidFire) + 'שנ\'', W - 10, statusY); statusY += 20;
@@ -266,10 +268,10 @@ function drawUI() {
         ctx.fillStyle = `rgba(0,255,255,${a})`; ctx.font = 'bold 16px Arial'; ctx.textAlign = 'center';
         ctx.fillText('\u26A0\uFE0F החייזר מרחף! אי אפשר לפגוע בו! \u26A0\uFE0F', W / 2, H / 2 - 50);
     }
-    ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.beginPath(); ctx.roundRect(W / 2 - 35, 10, 70, 28, 8); ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.beginPath(); ctx.roundRect(W / 2 - 35, uy, 70, 28, 8); ctx.fill();
     ctx.fillStyle = '#fff'; ctx.font = 'bold 15px Arial'; ctx.textAlign = 'center';
     const m = Math.floor(gameTime / 60), s = Math.floor(gameTime % 60);
-    ctx.fillText(m + ':' + String(s).padStart(2, '0'), W / 2, 30);
+    ctx.fillText(m + ':' + String(s).padStart(2, '0'), W / 2, uy + 20);
 }
 
 function drawStars() {
