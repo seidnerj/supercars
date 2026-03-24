@@ -60,14 +60,17 @@ function touchToGame(cx, cy) {
 }
 function inCircle(px, py, cx, cy, r) { return (px - cx) ** 2 + (py - cy) ** 2 <= r * r; }
 
-// Touch control layout (screen-space pixels, scales with screen size)
+// Touch control layout - positioned relative to the game area, not raw canvas
 function touchLayout() {
-    const cw = canvas.width, ch = canvas.height;
-    const s = Math.min(cw, ch) / 600; // scale factor for small screens
+    const gx = canvasOffX, gy = canvasOffY;
+    const gw = W * canvasScale, gh = H * canvasScale;
+    const s = Math.min(gw, gh) / 600;
     return {
-        shootBtn: { x: cw - 80 * s, y: ch - 100 * s, r: 50 * s },
-        shieldBtn: { x: cw - 80 * s, y: ch - 220 * s, r: 38 * s },
-        pauseBtn: { x: cw - 35 * s, y: 35 * s, r: 24 * s }
+        shootBtn: { x: gx + gw - 70 * s, y: gy + gh - 90 * s, r: 48 * s },
+        shieldBtn: { x: gx + gw - 70 * s, y: gy + gh - 200 * s, r: 36 * s },
+        pauseBtn: { x: gx + gw - 30 * s, y: gy + 30 * s, r: 22 * s },
+        // Game area bounds for joystick zone detection
+        gameLeft: gx, gameTop: gy, gameW: gw, gameH: gh
     };
 }
 
@@ -92,8 +95,8 @@ if (isTouchDevice) {
             if (inCircle(p.x, p.y, lay.shieldBtn.x, lay.shieldBtn.y, lay.shieldBtn.r)) {
                 shieldTouchId = touch.identifier; input.shield = true; continue;
             }
-            // Left ~40% of screen = joystick zone
-            if (p.x < canvas.width * 0.4) {
+            // Left ~40% of game area = joystick zone
+            if (p.x >= lay.gameLeft && p.x < lay.gameLeft + lay.gameW * 0.4) {
                 joystickTouchId = touch.identifier;
                 joystickCenter = { x: p.x, y: p.y };
                 joystickThumb = { x: p.x, y: p.y };
@@ -113,10 +116,10 @@ if (isTouchDevice) {
                 const p = canvasTouchPos(touch);
                 let dx = p.x - joystickCenter.x, dy = p.y - joystickCenter.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                const maxR = JOY_R * (canvas.width / 800);
+                const maxR = JOY_R * canvasScale;
                 if (dist > maxR) { dx = dx / dist * maxR; dy = dy / dist * maxR; }
                 joystickThumb = { x: joystickCenter.x + dx, y: joystickCenter.y + dy };
-                const dead = JOY_DEAD * (canvas.width / 800);
+                const dead = JOY_DEAD * canvasScale;
                 input.left = dx < -dead; input.right = dx > dead;
                 input.up = dy < -dead; input.down = dy > dead;
             }
@@ -146,7 +149,7 @@ function drawTouchControls() {
     const lay = touchLayout();
 
     // Joystick
-    const maxR = JOY_R * (canvas.width / 800);
+    const maxR = JOY_R * canvasScale;
     if (joystickCenter) {
         ctx.fillStyle = 'rgba(255,255,255,0.08)';
         ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 2;
